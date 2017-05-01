@@ -8,13 +8,19 @@
 
 vector<int> solution(vector<int> &A, int K) {
     // write your code in C++14 (g++ 6.2.0)
-    int k = A.size() - K;
-    while(k < 0)
+    if(A.size() > 0)
     {
-        k = k + A.size();
+       int k = A.size() - K;
+       while(k < 0)
+       {
+           k = k + A.size();
+       }
+
+       std::rotate(A.begin(),A.begin()+k,A.end());
     }
-    std::rotate(A.begin(),A.begin()+k,A.end());
     return A;
+
+
 }
 
 

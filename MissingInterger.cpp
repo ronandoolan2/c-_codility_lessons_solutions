@@ -8,19 +8,26 @@
 
 int solution(vector<int> &A) {
     // write your code in C++14 (g++ 6.2.0)
-    vector<int>::iterator it;
-    int start = *std::max_element(A.begin(), A.end());
-    int missing = 0;
-    for(unsigned int i = start;i > 0;i--)
+    vector<int> pA = A;
+    pA.erase(std::remove_if(pA.begin(), pA.end(),[](int i){ return i < 0;}), pA.end());
+    /*for (vector<int>::const_iterator i = pA.begin(); i != pA.end(); ++i)
     {
-        it = find (A.begin(), A.end(), i);
-        if (it == A.end())
+        cout << *i << endl;
+    }*/
+    sort(pA.begin(), pA.end());
+    pA.erase(unique(pA.begin(), pA.end()), pA.end());
+    int x = 1;
+    for (vector<int>::const_iterator i = pA.begin(); i != pA.end(); ++i)
+    {
+        //cout << x << " " << *i << endl;
+        if(*i != x)
         {
-           missing = i;
-           return missing;
+            return x;
         }
+        x++;
     }
-
+    return x;
+    
 }
 
 

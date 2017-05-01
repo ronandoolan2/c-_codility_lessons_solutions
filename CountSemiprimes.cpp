@@ -14,23 +14,25 @@ vector<int> solution(int N, vector<int> &P, vector<int> &Q) {
     primes.push_back(2);
     primes.push_back(3);
     semiprimes.push_back(4);
+    int largest_int = *std::max_element(Q.begin(), Q.end());
     //get primes
-    for (int i=2; i<26; i++)
+    for (int i=2; i<largest_int; i++)
     {
         for (int j=2; j*j<=i; j++)
         {
             if (i % j == 0)
                 break;
-            else if (j+1 > sqrt(i)) {
+            else if (j+1 > sqrt(i)) 
+            {
                 primes.push_back(i);
             }
         }
     }
-    //get semiprimes
+        //get semiprimes
     for (std::vector<int>::const_iterator it = primes.begin(); it != primes.end(); ++it)
     {
         int prime = *it;
-        if(prime*prime > 26)
+        if(prime*prime > largest_int)
         {
             break;
         }
@@ -44,11 +46,11 @@ vector<int> solution(int N, vector<int> &P, vector<int> &Q) {
             int prime2 = *(it+k);
             int semiprime = prime1*prime2;
             //cout << prime1 << " " << prime2 << " " << semiprime << endl;
-            if(prime1*prime1 > 26)
+            if(prime1*prime1 > largest_int)
             {
                 break;
             }
-            if(semiprime <= 26)
+            if(semiprime <= largest_int)
             {
                 vector<int>::iterator it2;
                 it2 = find (semiprimes.begin(), semiprimes.end(), semiprime);
@@ -56,6 +58,7 @@ vector<int> solution(int N, vector<int> &P, vector<int> &Q) {
                 {
                     semiprimes.push_back(semiprime);
                 }
+
             }
             else
             {
@@ -73,7 +76,7 @@ vector<int> solution(int N, vector<int> &P, vector<int> &Q) {
     //return P;
     //loop through P&Q
     vector<int> ans;
-    
+
     for(int z = 0;z < P.size();z++)
     {
         int M = 0;

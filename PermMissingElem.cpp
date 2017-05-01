@@ -8,13 +8,18 @@
 
 int solution(vector<int> &A) {
     // write your code in C++14 (g++ 6.2.0)
-    vector<int>::iterator it;
-    for(unsigned int i = 1;i < (A.size() + 1);i++)
+    sort(A.begin(), A.end());
+    int x = 1;
+    for (vector<int>::const_iterator i = A.begin(); i != A.end(); ++i)
     {
-        it = find (A.begin(), A.end(), i);
-        if (it == A.end())
-           return i;
+        //cout << x << " " << *i << endl;
+        if(*i != x)
+        {
+            return x;
+        }
+        x++;
     }
+    return x;
 }
 
 

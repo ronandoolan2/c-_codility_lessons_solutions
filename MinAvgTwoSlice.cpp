@@ -1,6 +1,3 @@
-
-
-// you can use includes, for example:
 #include <algorithm>
 #include <limits.h>
 #include <numeric>
@@ -13,8 +10,12 @@ int solution(vector<int> &A) {
     // write your code in C++14 (g++ 6.2.0)
     for(int i = 0;i < A.size();i++)
     {
-       for(int j = 2;j < (A.size() - i);j++)
+       for(int j = 2;j < 4;j++)
        {
+           if(A.begin()+(i+j) > A.end())
+           {
+               continue;
+           }
            int sum_of_elems = std::accumulate(A.begin()+i, A.begin()+(i+j), 0);
            float avg = ((float)sum_of_elems)/ ((float)j);
            //cout << i << " " << j << " " << avg << endl;
@@ -25,10 +26,7 @@ int solution(vector<int> &A) {
                start_pos = i;
            }
        }
-       
+
     }
     return start_pos;//min_slice;
-    //std::count (A.begin(), A.end(), *i);
 }
-
-

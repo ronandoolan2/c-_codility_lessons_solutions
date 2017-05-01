@@ -7,11 +7,86 @@
 int solution(int K, vector<int> &C, vector<int> &D) {
     // write your code in C++14 (g++ 6.2.0)
     //get number of colours of socks
-    int number_of_colours = max(*std::max_element(C.begin(), C.end()),*std::max_element(D.begin(), D.end()));
-    int socks_to_wash = 0;
+    //int number_of_colours = max(*std::max_element(C.begin(), C.end()),*std::max_element(D.begin(), D.end()));
+    sort(C.begin(), C.end());
+    sort(D.begin(), D.end());
+    //int socks_to_wash = 0;
     //get half pairs of clean socks
     vector<int> half_pairs;
-    for(int i = 1; i < number_of_colours;i++)
+    vector<int> full_pairs;
+    vector<int> socks_to_wash;
+    //take out clean pairs
+    for(int i = 1;i < C.size();i++)
+    {
+        if((C[i-1] == C[i])&&(C[i]!=0))
+        {
+            full_pairs.push_back(C[i]);
+            //cout << C[i] << endl;
+            //remove sock
+            C[i-1] = 0;
+            C[i] = 0;;
+        }
+        else if ((C[i] != C[i-1])&&(C[i] != C[i+1]))
+        {
+            half_pairs.push_back(C[i]);
+            //cout << "half pair" << C[i] << endl;
+            C[i] = 0;
+
+        }
+    }
+    //find matches
+    for(int i = 0;i < D.size();i++)
+    {
+        //cout << "D[i] " << D[i] << endl;
+        if(socks_to_wash.size() >= K)
+        {
+            break;
+        }
+        for(int j = 0;j < half_pairs.size();j++)
+        {
+            if(D[i] == half_pairs[j])
+            {
+                //cout << "found match" << endl;
+                socks_to_wash.push_back(D[i]);
+                //cout << D[i] << endl;
+                full_pairs.push_back(D[i]);
+                half_pairs[j] = 100;
+                sort(half_pairs.begin(), half_pairs.end());
+                D[i] = 0;
+            }
+            else if(half_pairs[j] > D[i])
+            {
+                break;
+            }
+        }
+    }
+    if(socks_to_wash.size() < K)
+    {
+        for(int i = 1;i < D.size();i++)
+        {
+            if((D[i-1] == D[i])&&(D[i]!=0))
+            {
+                socks_to_wash.push_back(D[i -1]);
+                D[i-1] = 0;
+                if(socks_to_wash.size() >= K)
+                {
+                    break;
+                }
+                socks_to_wash.push_back(D[i]);
+                //cout << D[i] << endl;
+                full_pairs.push_back(D[i]);
+                D[i] = 0;
+
+                
+                if(socks_to_wash.size() >= K)
+                {
+                    break;
+                }
+            }
+        }
+    }
+    return full_pairs.size();
+    /*for(int i = 1; i < number_of_colours;i++)
     {
         int mycount = std::count (C.begin(), C.end(), i);
         if((mycount % 2) != 0)
@@ -59,5 +134,5 @@ int solution(int K, vector<int> &C, vector<int> &D) {
         }
     }
     cout << "socks to take " << socks_to_take << endl;
-    return socks_to_take/2;
+    return socks_to_take/2;*/
 }
